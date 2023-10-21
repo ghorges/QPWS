@@ -5,9 +5,9 @@ from sklearn.metrics import accuracy_score
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import StratifiedKFold
-import pls_da_new
 import threading
 import warnings
+
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # thread lock
@@ -23,6 +23,19 @@ GLOBALBESTWAVE = []
 
 
 def PC_Validation(X, y, pc, cv):
+    """
+    cross-validation
+
+    Parameters:
+    - X: spectral data
+    - y: Target labels
+    - pc: Number of principal components to use
+    - cv: Number of cross-validation folds
+
+    Returns:
+    - Mean accuracy of the PCV
+    - Optimal number of components (rindex)
+    """
     t = np.arange(0, pc)
     if len(t) > 10:
         t = t[2::5]
@@ -52,6 +65,16 @@ def PC_Validation(X, y, pc, cv):
 
 
 def listLastMaxData(arr):
+    """
+    Find the index and value of the last maximum value in a list.
+
+    Parameters:
+    - arr: List of values
+
+    Returns:
+    - Index of the last maximum value
+    - Value of the last maximum value
+    """
     max_value = np.max(arr)
     last_max_index = len(arr) - np.where(arr[::-1] == max_value)[0][0] - 1
     last_max_value = arr[last_max_index]
@@ -59,10 +82,21 @@ def listLastMaxData(arr):
 
 
 def fit(pid, x, y, comp):
+    """
+    Perform feature selection using PLS-DA.
+
+    Parameters:
+    - pid: Process ID
+    - x: spectral data
+    - y: Target labels
+    - comp: Number of components
+
+    This function updates GLOBALWAVENUM, GLOBALACC, and other global variables.
+    """
     card = []
     card_num = []
     X = copy.deepcopy(x)
-    ranges = 0.7
+    ranges = 0.99
 
     ACCLIST = []
     while True:
@@ -140,10 +174,29 @@ def fit(pid, x, y, comp):
 
 
 def worker(i, x, y):
+    """
+    Worker function for parallel feature selection.
+
+    Parameters:
+    - i: Thread ID
+    - x: spectral data
+    - y: Target labels
+
+    This function calls the 'fit' function for feature selection.
+    """
     fit(i, x, y, 35)
 
 
 def Algorithm(x, y):
+    """
+    Main algorithm for feature selection using multiple threads.
+
+    Parameters:
+    - x: spectral data
+    - y: Target labels
+
+    This function orchestrates the feature selection process and displays results.
+    """
     threads = []
     for i in range(THREADSIZE):
         t = threading.Thread(target=worker, args=(i, x, y))
@@ -241,8 +294,3 @@ def pltSets(plt, xlabel, ylabel, mx):
     if handles:
         ax1.legend()
     return plt
-
-
-if __name__ == '__main__':
-    x, y = pls_da_new.deal_data_all_delete_testing()
-    Algorithm(x, y)
