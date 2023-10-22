@@ -49,4 +49,4 @@ We welcome contributions from the community. If you have suggestions for improvi
 
 ## Contact
 
-If you have any questions or need support, please contact us at [1298394633@qq.com](mailto:1298394633@qq.com)].
+If you have any questions or need support, please contact us at [1298394633@qq.com](mailto:1298394633@qq.com).
