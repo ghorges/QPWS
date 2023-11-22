@@ -39,6 +39,31 @@ x, y = prepare_data()
 qpws.Algorithm(x, y)
 ```
 
+## Performance Testing
+
+### Data Source
+The performance testing was conducted using the dataset provided in the following research paper:
+- **Paper:** [Link to Paper](https://doi.org/10.1038/s41598-022-17810-y)
+- **Open Dataset:** [Download Dataset](https://static-content.springer.com/esm/art%3A10.1038%2Fs41598-022-17810-y/MediaObjects/41598_2022_17810_MOESM1_ESM.zip)
+
+### Test Configuration
+
+| Feature Selection | Band Selection | Processing Speed | Method   | Accuracy |
+|-------------------|-----------------|-------------------|----------|----------|
+| QPWS              | 2               | 20ms              | PLS-DA   | 100%     |
+
+### Comparison with Research Paper
+
+| Paper Feature Selection | Paper Band Selection | Paper Processing Speed | Paper Method | Paper Accuracy |
+|-------------------------|----------------------|--------------|-------------------------|----------------|
+| PCA                     | 6                    | 30ms          | EML                    | 100%           |
+
+The performance testing results indicate that the use of QPWS for feature selection, with only 2 selected bands, outperformed the approach suggested in the original research paper that employed PCA with 6 selected bands. The QPWS method not only demonstrated a more efficient selection of spectral bands but also yielded superior results, achieving 100% accuracy at a processing speed of 20ms. This contrasts with the paper's approach using PCA, which, despite selecting a larger number of bands (6), achieved the same accuracy but at a slightly slower processing speed (30ms).
+
+The findings suggest that QPWS is a more effective feature selection method for the given dataset, providing a streamlined approach with improved performance metrics. This highlights the importance of carefully selecting and evaluating feature extraction techniques in spectral analysis applications.
+
+
+
 ## License
 
 qpws is open-source software released under the MIT License. You are free to use and modify it for your specific needs. See the [LICENSE](https://github.com/ghorges/QPWS/blob/main/LICENSE) file for more details.
